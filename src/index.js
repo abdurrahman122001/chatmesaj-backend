@@ -147,7 +147,7 @@ io.on("connection", (socket) => {
   }
 });
 
-const PORT = Number(process.env.PORT || 4000);
+const PORT = Number(process.env.PORT || 8081);
 server.listen(PORT, () => {
   console.log(`✓ API server listening on http://localhost:${PORT}`);
 });
