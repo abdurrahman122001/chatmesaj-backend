@@ -103,7 +103,7 @@ router.post("/register", async (req, res) => {
   });
 
   // Send verification email to new user
-  const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
+  const frontendOrigin = (process.env.FRONTEND_ORIGIN || "http://localhost:5173").replace(/\/+$/, "");
   const verificationUrl = `${frontendOrigin}/verify-email?token=${emailVerificationToken}`;
   const verifyTpl = renderVerifyEmail({ token: emailVerificationToken, frontendOrigin });
   await sendMail({
@@ -148,6 +148,7 @@ router.post("/verify-email", async (req, res) => {
     where: { id: user.id },
     data: {
       emailVerified: true,
+      status: "APPROVED", // Auto-approve after email verification
       emailVerificationToken: null,
       emailVerificationExpires: null,
     },
@@ -412,7 +413,7 @@ router.post("/forgot-password", async (req, res) => {
   });
 
   // Build reset URL
-  const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
+  const frontendOrigin = (process.env.FRONTEND_ORIGIN || "http://localhost:5173").replace(/\/+$/, "");
   const resetUrl = `${frontendOrigin}/reset-password?token=${resetToken}`;
 
   // Send email

@@ -64,23 +64,21 @@ const DEFAULT_BRAND = "ChatMesaj";
 
 export function renderVerifyEmail({ token, frontendOrigin, siteName }) {
   const tpl = readTemplate("verify-email");
-  const url = `${frontendOrigin}/verify-email?token=${encodeURIComponent(token)}`;
-  // Template hard-codes chatmesaj.cc; replace that link with the configured origin.
-  const replaced = tpl.replace(
-    /https:\/\/chatmesaj\.cc\/verify-email\?token=\{\{token\}\}/g,
-    url
-  );
-  return finalize(renderVars(replaced, { token, site_name: escapeHtml(siteName || DEFAULT_BRAND) }));
+  return finalize(renderVars(tpl, { 
+    token, 
+    frontendOrigin,
+    site_name: escapeHtml(siteName || DEFAULT_BRAND) 
+  }));
 }
 
 export function renderResetPassword({ token, frontendOrigin, name, siteName }) {
   const tpl = readTemplate("reset-password");
-  const url = `${frontendOrigin}/reset-password?token=${encodeURIComponent(token)}`;
-  const replaced = tpl.replace(
-    /https:\/\/chatmesaj\.cc\/reset-password\?token=\{\{token\}\}/g,
-    url
-  );
-  return finalize(renderVars(replaced, { token, name: escapeHtml(name || ""), site_name: escapeHtml(siteName || DEFAULT_BRAND) }));
+  return finalize(renderVars(tpl, { 
+    token, 
+    frontendOrigin,
+    name: escapeHtml(name || ""), 
+    site_name: escapeHtml(siteName || DEFAULT_BRAND) 
+  }));
 }
 
 export function renderAgentReply({
